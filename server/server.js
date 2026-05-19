@@ -24,7 +24,13 @@ const app = express();
 // Security Middlewares
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (origin.endsWith('.vercel.app') || origin === process.env.CLIENT_URL || origin.startsWith('http://localhost')) {
+      return callback(null, true);
+    }
+    return callback(new Error('CORS blocked origin: ' + origin), false);
+  },
   credentials: true
 }));
 
