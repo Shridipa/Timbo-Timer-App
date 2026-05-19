@@ -1,0 +1,230 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-card: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+:root {
+  --background: #f8fafc;
+  --background-end: #f1f5f9;
+  --foreground: #0f172a;
+  --card-bg: #ffffff;
+  --card-border: rgba(15, 23, 42, 0.08);
+  --primary: #3b82f6;
+  --primary-glow: rgba(59, 130, 246, 0.15);
+  --shadow: rgba(0, 0, 0, 0.05);
+  --muted: #64748b;
+  --glass-bg: rgba(255, 255, 255, 0.8);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Immersive background texture and lighting effects */
+.ambient-lighting {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--background) 0%, var(--background-end) 100%);
+  transition: background 0.4s ease;
+}
+
+.ambient-orb {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  transition: all 0.6s ease;
+}
+
+/* Elegant glass panels */
+.glass {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 32px var(--shadow);
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Override all inline hardcoded page backgrounds across the 8 themes dynamically */
+div[style*="background: rgb(8, 12, 20)"],
+div[style*="background: #080c14"],
+div[style*="background:#080c14"],
+div[style*="background: rgb(13, 17, 23)"],
+div[style*="background: #0d1117"],
+div[style*="background:#0d1117"] {
+  background: transparent !important;
+  transition: background 0.4s ease;
+}
+
+/* ────────── Traditional Nav/Header Removal Selectors ────────── */
+/* Targets and completely hides the redundant internal page navbars inside DashboardPage, FocusPage, CoachPage, etc. */
+div[style*="height: 56"][style*="border-bottom"],
+div[style*="height: 56px"][style*="border-bottom"],
+div[style*="height: 56"][style*="borderBottom"],
+div[style*="height: 56px"][style*="borderBottom"] {
+  display: none !important;
+}
+
+/* Overwrite hardcoded white/slate text to be theme responsive */
+h1, h2, h3, h4, h5, h6, label {
+  color: var(--foreground) !important;
+  transition: color 0.4s ease;
+}
+
+/* Adjust secondary colors in light/soft modes for beautiful contrast */
+:root:not(.dark) .text-gray-400,
+:root:not(.dark) .text-slate-400,
+:root:not(.dark) .text-gray-300,
+:root:not(.dark) .text-slate-300 {
+  color: var(--muted) !important;
+}
+
+/* Force form items to remain perfectly readable inside soft themes */
+:root:not(.dark) input,
+:root:not(.dark) textarea,
+:root:not(.dark) select {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-color: var(--card-border) !important;
+  color: var(--foreground) !important;
+}
+
+/* Clean layouts for pages rendering inside outlet wrapper */
+main {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Force all child pages (Dashboard, Coach, Focus, etc.) to perfectly fit the viewport and cover entire scrollable height */
+main > div, main > div > div {
+  min-height: 100% !important;
+  height: auto !important;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure any internal overflow elements are properly handled */
+.overflow-y-auto {
+  overflow-y: auto !important;
+}
+
+/* ────────── Aggressive Theme Text Visibility Overrides ────────── */
+/* Replace hardcoded inline light text colors across the app when in light/soft themes */
+:root:not(.dark) [style*="color: rgb(241, 245, 249)"],
+:root:not(.dark) [style*="color: #f1f5f9"],
+:root:not(.dark) [style*="color: rgb(226, 232, 240)"],
+:root:not(.dark) [style*="color: #e2e8f0"],
+:root:not(.dark) [style*="color: rgb(203, 213, 225)"],
+:root:not(.dark) [style*="color: #cbd5e1"],
+:root:not(.dark) [style*="color: rgb(255, 255, 255)"],
+:root:not(.dark) [style*="color: #ffffff"],
+:root:not(.dark) [style*="color: #fff"] {
+  color: var(--foreground) !important;
+}
+
+:root:not(.dark) [style*="color: rgb(148, 163, 184)"],
+:root:not(.dark) [style*="color: #94a3b8"],
+:root:not(.dark) [style*="color: rgb(100, 116, 139)"],
+:root:not(.dark) [style*="color: #64748b"],
+:root:not(.dark) [style*="color: rgb(71, 85, 105)"],
+:root:not(.dark) [style*="color: #475569"] {
+  color: var(--muted) !important;
+}
+
+/* Ensure all glass panels border and backgrounds are visible in light mode */
+:root:not(.dark) [style*="border-color: rgba(255, 255, 255, 0.08)"],
+:root:not(.dark) [style*="border-color: rgba(255,255,255,0.08)"],
+:root:not(.dark) [style*="border-color: rgba(255, 255, 255, 0.06)"],
+:root:not(.dark) [style*="border-color: rgba(255,255,255,0.06)"],
+:root:not(.dark) [style*="border-color: rgba(255, 255, 255, 0.05)"],
+:root:not(.dark) [style*="border-color: rgba(255,255,255,0.05)"],
+:root:not(.dark) [style*="border: 1px solid rgba(255, 255, 255, 0.08)"],
+:root:not(.dark) [style*="border: 1px solid rgba(255,255,255,0.08)"],
+:root:not(.dark) [style*="border: 1px solid rgba(255, 255, 255, 0.06)"],
+:root:not(.dark) [style*="border: 1px solid rgba(255,255,255,0.06)"],
+:root:not(.dark) [style*="border: 1px solid rgba(255, 255, 255, 0.05)"],
+:root:not(.dark) [style*="border: 1px solid rgba(255,255,255,0.05)"] {
+  border-color: var(--card-border) !important;
+}
+
+:root:not(.dark) [style*="background: rgba(255, 255, 255, 0.05)"],
+:root:not(.dark) [style*="background: rgba(255,255,255,0.05)"],
+:root:not(.dark) [style*="background: rgba(255, 255, 255, 0.04)"],
+:root:not(.dark) [style*="background: rgba(255,255,255,0.04)"],
+:root:not(.dark) [style*="background: rgba(255, 255, 255, 0.03)"],
+:root:not(.dark) [style*="background: rgba(255,255,255,0.03)"],
+:root:not(.dark) [style*="background: rgba(255, 255, 255, 0.02)"],
+:root:not(.dark) [style*="background: rgba(255,255,255,0.02)"] {
+  background: var(--card-bg) !important;
+}
+
+/* ── Smart Calendar Aesthetic overrides ── */
+.theme-futuristic-calendar {
+  --fc-border-color: var(--card-border);
+  --fc-daygrid-event-dot-width: 6px;
+  --fc-event-bg-color: transparent;
+  --fc-event-border-color: transparent;
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: transparent;
+  --fc-today-bg-color: var(--primary-glow);
+}
+
+.theme-futuristic-calendar .fc-theme-standard td,
+.theme-futuristic-calendar .fc-theme-standard th {
+  border: 1px solid var(--fc-border-color) !important;
+}
+
+.theme-futuristic-calendar .fc-col-header-cell-cushion,
+.theme-futuristic-calendar .fc-daygrid-day-number,
+.theme-futuristic-calendar .fc-timegrid-slot-label-cushion,
+.theme-futuristic-calendar .fc-timegrid-axis-cushion {
+  color: currentColor !important;
+  text-decoration: none !important;
+}
+
+.theme-futuristic-calendar .fc-daygrid-day:hover {
+  background: var(--primary-glow) !important;
+  opacity: 0.8;
+}
+
+.theme-futuristic-calendar .fc-header-toolbar {
+  display: none !important;
+}
