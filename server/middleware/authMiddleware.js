@@ -4,7 +4,15 @@ import User from '../models/User.js';
 export const protect = async (req, res, next) => {
   let token;
 
-  token = req.cookies.jwt;
+  // Check for Bearer token in headers
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1];
+  } 
+  
+  // Fallback to cookie
+  if (!token && req.cookies && req.cookies.jwt) {
+    token = req.cookies.jwt;
+  }
 
   if (token) {
     try {

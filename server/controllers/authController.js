@@ -32,13 +32,14 @@ export const registerUser = async (req, res, next) => {
       
       await user.save();
 
-      generateToken(res, user._id);
+      const token = generateToken(res, user._id);
       return res.status(200).json({
         _id: user._id,
         name: user.name,
         email: user.email,
         avatar: user.avatar,
-        timezone: user.timezone
+        timezone: user.timezone,
+        token
       });
     }
 
@@ -52,13 +53,14 @@ export const registerUser = async (req, res, next) => {
     });
 
     if (user) {
-      generateToken(res, user._id);
+      const token = generateToken(res, user._id);
       res.status(201).json({
         _id: user._id,
         name: user.name,
         email: user.email,
         avatar: user.avatar,
-        timezone: user.timezone
+        timezone: user.timezone,
+        token
       });
     } else {
       res.status(400);
@@ -87,13 +89,14 @@ export const loginUser = async (req, res, next) => {
     const user = await User.findOne({ email: normalizedEmail }).select('+password');
 
     if (user && (await user.matchPassword(normalizedPassword))) {
-      generateToken(res, user._id);
+      const token = generateToken(res, user._id);
       res.json({
         _id: user._id,
         name: user.name,
         email: user.email,
         avatar: user.avatar,
-        timezone: user.timezone
+        timezone: user.timezone,
+        token
       });
     } else {
       res.status(401);
