@@ -5,15 +5,21 @@ import {
   Bell,
   Bot,
   CalendarDays,
+  Crown,
+  Flame,
   Compass,
+  Gauge,
+  HeartHandshake,
   LogOut,
   Moon,
   Plus,
   Search,
+  Settings,
   Sparkles,
   Sun,
   Target,
   TimerReset,
+  UsersRound,
   UserRound,
   Zap,
 } from "lucide-react";
@@ -22,19 +28,32 @@ import { useAuth } from "../context/AuthContext";
 import { themeStyles, useTheme } from "../context/ThemeContext";
 
 const tabs = [
-  { name: "Today", path: "/", icon: Target, cue: "Mission" },
+  { name: "Dashboard", path: "/", icon: Target, cue: "Mission" },
   { name: "Calendar", path: "/calendar", icon: CalendarDays, cue: "Flow" },
-  { name: "Focus", path: "/focus", icon: TimerReset, cue: "Deep work" },
-  { name: "Coach", path: "/coach", icon: Bot, cue: "Support" },
   { name: "Roadmap", path: "/roadmap", icon: Compass, cue: "Path" },
+  { name: "Focus", path: "/focus", icon: TimerReset, cue: "Deep work" },
+  { name: "AI Coach", path: "/coach", icon: Bot, cue: "Support" },
+  { name: "Analytics", path: "/analytics", icon: Gauge, cue: "Trends" },
+  { name: "Habits", path: "/habits", icon: Flame, cue: "Streaks" },
+  { name: "Team", path: "/team", icon: UsersRound, cue: "Shared" },
+  { name: "Settings", path: "/settings", icon: Settings, cue: "Control" },
 ];
 
+const mobileTabs = tabs.slice(0, 5);
+
 const pageMeta = {
-  "/": { title: "Today", crumb: "Mission control" },
+  "/": { title: "Dashboard", crumb: "Mission control" },
   "/calendar": { title: "Calendar", crumb: "Adaptive schedule" },
   "/focus": { title: "Focus", crumb: "Deep work sanctuary" },
-  "/coach": { title: "Coach", crumb: "Emotional strategy" },
+  "/coach": { title: "AI Coach", crumb: "Emotional strategy" },
   "/roadmap": { title: "Roadmap", crumb: "Momentum path" },
+  "/analytics": { title: "Analytics", crumb: "Progress intelligence" },
+  "/habits": { title: "Habits", crumb: "Streak systems" },
+  "/team": { title: "Team", crumb: "Shared execution" },
+  "/notifications": { title: "Notifications", crumb: "Signals" },
+  "/settings": { title: "Settings", crumb: "Workspace control" },
+  "/profile": { title: "Profile", crumb: "Your aura" },
+  "/premium": { title: "Premium", crumb: "Upgrade" },
 };
 
 export default function DashboardLayout() {
@@ -63,7 +82,7 @@ export default function DashboardLayout() {
       >
         <button className="sidebar-logo" onClick={() => navigate("/")}>
           <span><Sparkles size={19} /></span>
-          <strong>Timbo</strong>
+          <strong>Timbo-Timer</strong>
         </button>
 
         <nav className="sidebar-nav">
@@ -78,6 +97,7 @@ export default function DashboardLayout() {
         <div className="sidebar-shortcuts">
           <button title="Quick add"><Plus size={18} /><span>Quick add</span></button>
           <button title="Start focus"><Zap size={18} /><span>Start focus</span></button>
+          <button title="Team room" onClick={() => navigate("/team")}><HeartHandshake size={18} /><span>Team room</span></button>
         </div>
 
         <div className="sidebar-themes" aria-label="Theme selector">
@@ -92,9 +112,14 @@ export default function DashboardLayout() {
           ))}
         </div>
 
-        <button className="sidebar-profile" onClick={signOut} title="Sign out">
+        <button className="sidebar-premium" onClick={() => navigate("/premium")} title="Upgrade to Pro">
+          <Crown size={18} />
+          <span><strong>Upgrade to Pro</strong><small>AI rooms and insights</small></span>
+        </button>
+
+        <button className="sidebar-profile" onClick={() => navigate("/profile")} title="Profile">
           <UserRound size={18} />
-          <span><strong>{user?.name || "Timbo"}</strong><small>Momentum safe</small></span>
+          <span><strong>{user?.name || "Timbo"}</strong><small>Pro Plan</small></span>
           <LogOut size={15} className="profile-exit" />
         </button>
       </aside>
@@ -113,7 +138,7 @@ export default function DashboardLayout() {
 
           <div className="nav-actions">
             <span className="streak-pill">5 day flow</span>
-            <button title="Notifications"><Bell size={18} /></button>
+            <button title="Notifications" onClick={() => navigate("/notifications")}><Bell size={18} /></button>
             <button onClick={() => setTheme(theme === "dark" ? "mint" : "dark")} title="Toggle theme">
               {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
@@ -140,7 +165,7 @@ export default function DashboardLayout() {
       </section>
 
       <nav className="mobile-bottom-nav" aria-label="Primary navigation">
-        {tabs.map(({ name, path, icon: Icon }) => (
+        {mobileTabs.map(({ name, path, icon: Icon }) => (
           <NavLink key={name} to={path} end={path === "/"} className={({ isActive }) => isActive ? "active" : ""}>
             <Icon size={19} />
             <span>{name}</span>

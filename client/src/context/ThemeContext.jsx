@@ -7,16 +7,16 @@ export const useTheme = () => useContext(ThemeContext);
 export const themeStyles = {
   dark: {
     name: "Midnight Dark",
-    background: "#06120f",
-    backgroundEnd: "#0d1f1a",
+    background: "#03080b",
+    backgroundEnd: "#07110D",
     foreground: "#f7fbff",
-    cardBg: "rgba(12, 26, 22, 0.74)",
-    cardBorder: "rgba(255, 255, 255, 0.1)",
-    primary: "#7EE7C4",
-    primaryGlow: "rgba(126, 231, 196, 0.15)",
+    cardBg: "rgba(9, 22, 19, 0.74)",
+    cardBorder: "rgba(103, 247, 193, 0.12)",
+    primary: "#67F7C1",
+    primaryGlow: "rgba(103, 247, 193, 0.18)",
     shadow: "rgba(0, 0, 0, 0.42)",
     muted: "#bad5cd",
-    glassBg: "rgba(10, 25, 21, 0.82)",
+    glassBg: "rgba(7, 17, 13, 0.82)",
   },
   light: {
     name: "Soft Light",

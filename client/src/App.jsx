@@ -10,6 +10,13 @@ import RoadmapPage from './pages/RoadmapPage';
 import FocusPage from './pages/FocusPage';
 import CoachPage from './pages/CoachPage';
 import CalendarPage from './pages/CalendarPage';
+import AnalyticsPage from './pages/AnalyticsPage';
+import HabitsPage from './pages/HabitsPage';
+import TeamPage from './pages/TeamPage';
+import NotificationsPage from './pages/NotificationsPage';
+import SettingsPage from './pages/SettingsPage';
+import ProfilePage from './pages/ProfilePage';
+import PremiumPage from './pages/PremiumPage';
 
 import LandingPage from './pages/LandingPage';
 
@@ -37,6 +44,13 @@ function App() {
           <Route path="roadmap" element={<RoadmapPage />} />
           <Route path="focus" element={<FocusPage />} />
           <Route path="coach" element={<CoachPage />} />
+          <Route path="analytics" element={<AnalyticsPage />} />
+          <Route path="habits" element={<HabitsPage />} />
+          <Route path="team" element={<TeamPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="premium" element={<PremiumPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
