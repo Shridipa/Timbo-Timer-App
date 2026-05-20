@@ -9,6 +9,7 @@ import DashboardPage from './pages/DashboardPage';
 import RoadmapPage from './pages/RoadmapPage';
 import FocusPage from './pages/FocusPage';
 import CoachPage from './pages/CoachPage';
+import CalendarPage from './pages/CalendarPage';
 
 import LandingPage from './pages/LandingPage';
 
@@ -32,6 +33,7 @@ function App() {
         
         <Route path="/" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<DashboardPage />} />
+          <Route path="calendar" element={<CalendarPage />} />
           <Route path="roadmap" element={<RoadmapPage />} />
           <Route path="focus" element={<FocusPage />} />
           <Route path="coach" element={<CoachPage />} />

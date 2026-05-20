@@ -1,16 +1,17 @@
 import React from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Bot, Compass, LogOut, Moon, Sparkles, Sun, Target, TimerReset } from "lucide-react";
+import { Bot, CalendarDays, Compass, LogOut, Moon, Sparkles, Sun, Target, TimerReset } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import { themeStyles, useTheme } from "../context/ThemeContext";
 
 const tabs = [
   { name: "Today", path: "/", icon: Target },
-  { name: "Roadmap", path: "/roadmap", icon: Compass },
+  { name: "Calendar", path: "/calendar", icon: CalendarDays },
   { name: "Focus", path: "/focus", icon: TimerReset },
   { name: "Coach", path: "/coach", icon: Bot },
+  { name: "Roadmap", path: "/roadmap", icon: Compass },
 ];
 
 export default function DashboardLayout() {
@@ -54,6 +55,15 @@ export default function DashboardLayout() {
           </button>
         </div>
       </header>
+
+      <aside className="timbo-side-rail" aria-label="Workspace navigation">
+        {tabs.map(({ name, path, icon: Icon }) => (
+          <NavLink key={name} to={path} end={path === "/"} className={({ isActive }) => isActive ? "active" : ""} title={name}>
+            <Icon size={19} />
+            <span>{name}</span>
+          </NavLink>
+        ))}
+      </aside>
 
       <main className="timbo-main">
         <motion.div

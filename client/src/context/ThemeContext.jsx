@@ -6,17 +6,17 @@ export const useTheme = () => useContext(ThemeContext);
 
 export const themeStyles = {
   dark: {
-    name: "Dark Midnight",
-    background: "#070a12",
-    backgroundEnd: "#111827",
+    name: "Midnight Dark",
+    background: "#06120f",
+    backgroundEnd: "#0d1f1a",
     foreground: "#f7fbff",
-    cardBg: "rgba(13, 18, 31, 0.72)",
+    cardBg: "rgba(12, 26, 22, 0.74)",
     cardBorder: "rgba(255, 255, 255, 0.1)",
-    primary: "#8ea2ff",
-    primaryGlow: "rgba(142, 162, 255, 0.24)",
+    primary: "#79e2bb",
+    primaryGlow: "rgba(121, 226, 187, 0.2)",
     shadow: "rgba(0, 0, 0, 0.42)",
-    muted: "#bac7d8",
-    glassBg: "rgba(12, 18, 31, 0.82)",
+    muted: "#bad5cd",
+    glassBg: "rgba(10, 25, 21, 0.82)",
   },
   light: {
     name: "Soft Light",
@@ -25,8 +25,8 @@ export const themeStyles = {
     foreground: "#111827",
     cardBg: "rgba(255, 255, 255, 0.78)",
     cardBorder: "rgba(17, 24, 39, 0.1)",
-    primary: "#3164f4",
-    primaryGlow: "rgba(49, 100, 244, 0.14)",
+    primary: "#128667",
+    primaryGlow: "rgba(18, 134, 103, 0.13)",
     shadow: "rgba(15, 23, 42, 0.08)",
     muted: "#4b5f78",
     glassBg: "rgba(255, 255, 255, 0.85)",
@@ -87,7 +87,7 @@ export const themeStyles = {
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("timbo-theme") || "dark";
+    return localStorage.getItem("timbo-theme") || "mint";
   });
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
