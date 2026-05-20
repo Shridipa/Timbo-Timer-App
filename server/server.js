@@ -21,6 +21,9 @@ connectDB();
 
 const app = express();
 
+// Trust proxy for Render deployment to allow express-rate-limit
+app.set('trust proxy', 1);
+
 // Security Middlewares
 app.use(helmet());
 app.use(cors({
