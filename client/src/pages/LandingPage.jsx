@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, CalendarDays, Check, Clock3, Gauge, GraduationCap, Sparkles, Target } from "lucide-react";
+import { ArrowRight, CalendarDays, Check, Clock3, Gauge, GraduationCap, Sparkles, Target, Wand2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { addMonths, format } from "date-fns";
 import { useAuth } from "../context/AuthContext";
 
-const steps = ["Goal", "Deadline", "Level", "Availability", "Focus", "Generate"];
+const steps = ["Welcome", "Goal", "Deadline", "Free time", "Focus", "Generate"];
 
 const availabilityTemplate = [
   { day: "Mon", blocks: ["2-5 PM"] },
@@ -67,18 +67,27 @@ export default function LandingPage() {
           <AnimatePresence mode="wait">
             <motion.div key={step} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.22 }} className="onboarding-card">
               {step === 0 && (
+                <div className="welcome-state">
+                  <motion.div className="welcome-mark" animate={{ y: [0, -8, 0], scale: [1, 1.03, 1] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
+                    <Wand2 size={34} />
+                  </motion.div>
+                  <h2>Let Timbo build the execution layer for you.</h2>
+                  <p>No dashboard maze. Just one goal, a few calm preferences, and a plan that adapts when life moves.</p>
+                </div>
+              )}
+              {step === 1 && (
                 <>
                   <label>What are you trying to achieve?</label>
                   <textarea value={profile.goal} onChange={(e) => update("goal", e.target.value)} />
                 </>
               )}
-              {step === 1 && (
+              {step === 2 && (
                 <>
                   <label>When should Timbo help you arrive?</label>
                   <input type="date" value={profile.deadline} onChange={(e) => update("deadline", e.target.value)} />
                 </>
               )}
-              {step === 2 && (
+              {step === 3 && (
                 <>
                   <label>Where are you starting from?</label>
                   <div className="choice-grid">
@@ -88,10 +97,6 @@ export default function LandingPage() {
                       </button>
                     ))}
                   </div>
-                </>
-              )}
-              {step === 3 && (
-                <>
                   <label>When are you usually free?</label>
                   <div className="availability-grid">
                     {profile.availability.map((day) => (

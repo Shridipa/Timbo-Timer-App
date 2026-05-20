@@ -1005,3 +1005,469 @@ main > div, main > div > div {
     grid-template-columns: 1fr;
   }
 }
+
+/* Premium sensory layer */
+html {
+  color-scheme: light dark;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 680px at 50% -20%, var(--primary-glow), transparent 58%),
+    linear-gradient(120deg, color-mix(in srgb, var(--primary) 7%, transparent), transparent 42%);
+  opacity: 0.85;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent 70%);
+}
+
+button,
+a,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+.timbo-bottom-nav a,
+.hero-mission,
+.calm-panel,
+.roadmap-card,
+.chat-panel,
+.focus-card,
+.onboarding-copy,
+.onboarding-preview,
+.timeline-item,
+.preview-list div,
+.preview-stats div {
+  transition:
+    transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 240ms ease,
+    border-color 240ms ease,
+    background 240ms ease,
+    color 240ms ease;
+}
+
+.timbo-shell {
+  background:
+    radial-gradient(900px 520px at 18% -10%, var(--primary-glow), transparent 60%),
+    radial-gradient(900px 520px at 86% 4%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 58%),
+    linear-gradient(135deg, var(--background) 0%, var(--background-end) 100%);
+}
+
+.timbo-topbar {
+  border-bottom-color: color-mix(in srgb, var(--card-border) 76%, transparent);
+}
+
+.timbo-brand:hover,
+.icon-quiet:hover,
+.theme-dots button:hover,
+.timbo-bottom-nav a:hover,
+.choice-grid button:hover,
+.availability-grid button:hover,
+.quiet-action:hover,
+.suggestion-list button:hover,
+.duration-row button:hover,
+.focus-actions button:hover {
+  transform: translateY(-2px);
+}
+
+.hero-mission,
+.calm-panel,
+.roadmap-card,
+.chat-panel,
+.focus-card,
+.onboarding-copy,
+.onboarding-preview {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--card-bg) 92%, white), color-mix(in srgb, var(--card-bg) 88%, var(--primary-glow))),
+    var(--card-bg);
+  box-shadow:
+    0 24px 80px var(--shadow),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.hero-mission::before,
+.focus-card::before,
+.onboarding-copy::before,
+.chat-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.16), transparent 28%, transparent 74%, rgba(255,255,255,0.08)),
+    radial-gradient(720px 260px at 50% 0%, var(--primary-glow), transparent 72%);
+  opacity: 0.86;
+}
+
+.hero-mission > *,
+.focus-card > *,
+.onboarding-copy > *,
+.chat-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-mission:hover,
+.calm-panel:hover,
+.roadmap-card:hover,
+.timeline-item:hover,
+.preview-list div:hover,
+.preview-stats div:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--primary) 30%, var(--card-border));
+  box-shadow:
+    0 30px 90px var(--shadow),
+    0 0 0 1px color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.hero-mission h1,
+.onboarding-copy h1 {
+  max-width: 850px;
+  text-wrap: balance;
+}
+
+.hero-mission p,
+.onboarding-copy p,
+.screen-heading p {
+  font-size: 1.02rem;
+  max-width: 680px;
+}
+
+.soft-label {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.primary-action,
+.mission-progress button {
+  box-shadow: 0 16px 36px var(--primary-glow);
+}
+
+.primary-action:hover,
+.mission-progress button:hover,
+.coach-input button:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 20px 46px var(--primary-glow);
+}
+
+.primary-action:active,
+.mission-progress button:active,
+.icon-action:active,
+.timbo-bottom-nav a:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.timbo-bottom-nav {
+  bottom: max(18px, env(safe-area-inset-bottom));
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--glass-bg) 92%, transparent), color-mix(in srgb, var(--glass-bg) 70%, var(--primary-glow)));
+}
+
+.timbo-bottom-nav a {
+  position: relative;
+  min-height: 54px;
+  border-radius: 17px;
+}
+
+.timbo-bottom-nav a.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  width: 5px;
+  height: 5px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 16px rgba(255,255,255,0.9);
+}
+
+.mission-progress {
+  text-align: center;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    0 20px 52px var(--primary-glow);
+}
+
+.mission-progress strong {
+  background: linear-gradient(135deg, var(--foreground), var(--primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.timeline-list {
+  position: relative;
+}
+
+.timeline-list::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 35px;
+  width: 2px;
+  background: linear-gradient(var(--primary), transparent);
+  opacity: 0.28;
+}
+
+.timeline-item {
+  position: relative;
+  isolation: isolate;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 29px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 24px var(--primary-glow);
+  z-index: 1;
+}
+
+.timeline-item time {
+  padding-left: 20px;
+}
+
+.metric-ring {
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--card-bg) 72%, var(--primary-glow));
+  border: 1px solid var(--card-border);
+}
+
+.metric-ring circle:last-child {
+  filter: drop-shadow(0 0 8px var(--primary-glow));
+}
+
+.roadmap-path {
+  margin-inline: auto;
+  width: min(780px, 100%);
+}
+
+.checkpoint {
+  animation: timboPulse 3.8s ease-in-out infinite;
+}
+
+.roadmap-node.locked .checkpoint {
+  animation: none;
+}
+
+.roadmap-node:not(:last-child)::after {
+  background: linear-gradient(to bottom, var(--primary), color-mix(in srgb, var(--primary) 20%, transparent), transparent);
+}
+
+.roadmap-card {
+  transform-origin: left center;
+}
+
+.focus-card {
+  min-height: min(720px, calc(100vh - 190px));
+  background:
+    radial-gradient(520px 520px at 50% 44%, var(--primary-glow), transparent 70%),
+    linear-gradient(145deg, color-mix(in srgb, var(--card-bg) 90%, var(--primary-glow)), var(--card-bg));
+}
+
+.focus-card::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 1px solid color-mix(in srgb, var(--primary) 18%, transparent);
+  border-radius: 50%;
+  filter: blur(1px);
+  opacity: 0.38;
+  animation: breathe 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.timer-orbit {
+  filter: drop-shadow(0 24px 60px var(--primary-glow));
+}
+
+.timer-orbit circle:last-child {
+  stroke-width: 10;
+  filter: drop-shadow(0 0 10px var(--primary));
+}
+
+.icon-action,
+.duration-row button {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.chat-panel {
+  max-width: 820px;
+  margin-inline: auto;
+  width: 100%;
+}
+
+.chat-bubble {
+  box-shadow: 0 12px 34px var(--shadow);
+}
+
+.chat-bubble.coach {
+  border-color: color-mix(in srgb, var(--primary) 16%, var(--card-border));
+}
+
+.coach-input {
+  position: sticky;
+  bottom: 0;
+  box-shadow:
+    0 18px 46px var(--shadow),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.suggestion-list button {
+  min-height: 52px;
+}
+
+.onboarding-shell {
+  position: relative;
+  overflow: hidden;
+}
+
+.onboarding-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 440px at 16% 0%, var(--primary-glow), transparent 68%),
+    radial-gradient(900px 440px at 86% 24%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 70%);
+}
+
+.onboarding-panel {
+  position: relative;
+  z-index: 1;
+}
+
+.onboarding-copy h1 {
+  font-size: clamp(2.5rem, 6vw, 5.6rem);
+}
+
+.onboarding-card {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 18px 50px var(--shadow);
+}
+
+.welcome-state {
+  min-height: 245px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.welcome-state h2 {
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  line-height: 1;
+  max-width: 620px;
+  text-wrap: balance;
+}
+
+.welcome-mark {
+  width: 74px;
+  height: 74px;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 45%, #ffffff));
+  box-shadow: 0 24px 70px var(--primary-glow);
+}
+
+.onboarding-steps button {
+  position: relative;
+}
+
+.onboarding-steps button.active {
+  box-shadow: 0 14px 34px var(--primary-glow);
+}
+
+.choice-grid button,
+.availability-grid button {
+  text-align: center;
+}
+
+.availability-grid button span {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.preview-phone {
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.16),
+    0 24px 70px var(--shadow);
+}
+
+.preview-phone::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(145deg, rgba(255,255,255,0.16), transparent 32%);
+}
+
+.preview-phone > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes timboPulse {
+  0%, 100% {
+    box-shadow: 0 12px 28px var(--primary-glow);
+  }
+  50% {
+    box-shadow: 0 12px 40px var(--primary-glow), 0 0 0 8px color-mix(in srgb, var(--primary) 10%, transparent);
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(0.96);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
