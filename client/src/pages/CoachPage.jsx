@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Bot, Send, Sparkles } from "lucide-react";
+import { Bot, Brain, HeartPulse, Send, Sparkles } from "lucide-react";
 import { getAdaptiveState, getCoachMessages, getSuggestions } from "../lib/adaptiveEngine";
 
 const replies = {
@@ -26,6 +26,18 @@ export default function CoachPage() {
 
   return (
     <div className="coach-layout">
+      <aside className="coach-insights">
+        <div className="calm-panel">
+          <span className="soft-label"><HeartPulse size={14} /> Mood</span>
+          <h2>Clear, slightly resistant</h2>
+          <p>Best next move: reduce the first task until it feels startable.</p>
+        </div>
+        <div className="calm-panel mini-stack">
+          <div><strong>74%</strong><span>consistency</span></div>
+          <div><strong>3</strong><span>soft resets</span></div>
+        </div>
+      </aside>
+
       <section className="chat-panel">
         <div className="screen-heading compact">
           <span className="soft-label"><Bot size={14} /> Coach</span>
@@ -52,6 +64,11 @@ export default function CoachPage() {
           <span className="soft-label"><Sparkles size={14} /> Resistance Detection</span>
           <h2>Evening avoidance pattern</h2>
           <p>You usually skip evening sessions. Timbo recommends shorter review blocks after 6 PM.</p>
+        </div>
+        <div className="calm-panel">
+          <span className="soft-label"><Brain size={14} /> Technique</span>
+          <h2>Two-minute entry</h2>
+          <p>Open the task, define the first visible action, and stop negotiating with the whole project.</p>
         </div>
         <div className="suggestion-list">
           {getSuggestions().map((suggestion) => <button key={suggestion}>{suggestion}</button>)}

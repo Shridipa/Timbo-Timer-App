@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertTriangle, CheckCircle2, Music2, Pause, Play, RotateCcw } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Flame, Maximize2, Music2, Pause, Play, RotateCcw, Waves } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 const durations = [25, 45, 90];
@@ -50,6 +50,18 @@ export default function FocusPage() {
 
   return (
     <div className="focus-stage">
+      <aside className="focus-left">
+        <div className="calm-panel">
+          <span className="soft-label"><Flame size={14} /> Flow State</span>
+          <h2>5 day focus streak</h2>
+          <p>Your attention is strongest when you begin with one clean block.</p>
+        </div>
+        <div className="calm-panel mini-stack">
+          <div><strong>{quality}%</strong><span>focus quality</span></div>
+          <div><strong>{interruptions}</strong><span>interruptions</span></div>
+        </div>
+      </aside>
+
       <section className="focus-card">
         <span className="soft-label">Focus Environment</span>
         <h1>{completed ? "Beautiful work." : "One calm session."}</h1>
@@ -73,6 +85,7 @@ export default function FocusPage() {
           <button className="icon-action" onClick={() => reset()} title="Reset"><RotateCcw size={19} /></button>
           <button className="primary-action" disabled={completed} onClick={() => setRunning((value) => !value)}>{running ? <Pause size={19} /> : <Play size={19} />}{running ? "Pause" : "Start"}</button>
           <button className="icon-action warning" onClick={() => setInterruptions((value) => value + 1)} title="Log distraction"><AlertTriangle size={19} /></button>
+          <button className="icon-action" title="Fullscreen focus"><Maximize2 size={19} /></button>
         </div>
       </section>
 
@@ -86,6 +99,11 @@ export default function FocusPage() {
           <span className="soft-label">Session Ending</span>
           <h2>{interruptions > 2 ? "Reset gently" : "You are doing enough"}</h2>
           <p>{interruptions > 2 ? "Try a 25-minute session next. Smaller is smarter today." : "A clean session is built one returned attention at a time."}</p>
+        </div>
+        <div className="calm-panel">
+          <span className="soft-label"><Waves size={14} /> Breathing Cue</span>
+          <h2>Ease into the first minute</h2>
+          <p>Slow start, then steady execution. Timbo treats returning attention as progress.</p>
         </div>
       </aside>
     </div>
