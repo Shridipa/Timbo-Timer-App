@@ -228,3 +228,780 @@ main > div, main > div > div {
 .theme-futuristic-calendar .fc-header-toolbar {
   display: none !important;
 }
+
+/* Timbo-Timer 4-tab product system */
+.timbo-shell {
+  min-height: 100vh;
+  color: var(--foreground);
+  background: linear-gradient(135deg, var(--background) 0%, var(--background-end) 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.timbo-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65), transparent 72%);
+  pointer-events: none;
+}
+
+.timbo-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px clamp(18px, 4vw, 42px);
+  background: color-mix(in srgb, var(--glass-bg) 88%, transparent);
+  backdrop-filter: blur(22px);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.timbo-brand,
+.icon-quiet,
+.theme-dots button,
+.timbo-bottom-nav a,
+.duration-row button,
+.focus-actions button,
+.coach-input button,
+.suggestion-list button,
+.onboarding-steps button,
+.choice-grid button,
+.availability-grid button,
+.quiet-action {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.timbo-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--foreground);
+  background: transparent;
+}
+
+.timbo-brand span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 58%, #ffffff));
+  box-shadow: 0 10px 26px var(--primary-glow);
+}
+
+.timbo-topbar-actions,
+.theme-dots {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.theme-dots {
+  padding: 6px;
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  background: var(--card-bg);
+}
+
+.theme-dots button {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--swatch);
+}
+
+.theme-dots button.active {
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.icon-quiet {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: var(--foreground);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+}
+
+.timbo-main {
+  position: relative;
+  z-index: 1;
+  width: min(1160px, 100%);
+  margin: 0 auto;
+  padding: 34px clamp(16px, 4vw, 36px) 120px !important;
+}
+
+.timbo-screen,
+.page-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.timbo-bottom-nav {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  z-index: 50;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  width: min(560px, calc(100vw - 28px));
+  padding: 8px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--glass-bg) 90%, transparent);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 18px 50px var(--shadow);
+  backdrop-filter: blur(24px);
+}
+
+.timbo-bottom-nav a {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--muted);
+  text-decoration: none;
+  border-radius: 12px;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.timbo-bottom-nav a.active {
+  color: #fff;
+  background: var(--primary);
+  box-shadow: 0 10px 24px var(--primary-glow);
+}
+
+.soft-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  color: var(--primary);
+  background: var(--primary-glow);
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.73rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.hero-mission,
+.calm-panel,
+.roadmap-card,
+.chat-panel,
+.focus-card,
+.onboarding-copy,
+.onboarding-preview {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 20px 50px var(--shadow);
+  backdrop-filter: blur(22px);
+  border-radius: 8px;
+}
+
+.hero-mission {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 24px;
+  padding: clamp(24px, 5vw, 44px);
+}
+
+.hero-mission h1,
+.screen-heading h1,
+.focus-card h1,
+.onboarding-copy h1 {
+  margin: 16px 0 12px;
+  font-size: clamp(2.1rem, 5vw, 4.2rem);
+  line-height: 1;
+  letter-spacing: 0;
+  font-weight: 850;
+}
+
+.hero-mission p,
+.screen-heading p,
+.focus-card p,
+.calm-panel p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.mission-meta,
+.micro-stats,
+.insight-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.mission-meta span,
+.micro-stats span,
+.insight-strip span,
+.recovery-note,
+.checkpoint-list span,
+.rule-grid div,
+.suggestion-list button {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--card-bg) 70%, var(--primary-glow));
+  border: 1px solid var(--card-border);
+  color: var(--foreground);
+}
+
+.mission-progress {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 8px;
+  background: linear-gradient(160deg, var(--primary-glow), color-mix(in srgb, var(--card-bg) 80%, transparent));
+  border: 1px solid var(--card-border);
+}
+
+.mission-progress strong {
+  font-size: 3.4rem;
+  line-height: 1;
+}
+
+.mission-progress button,
+.primary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 800;
+  border: 0;
+  cursor: pointer;
+}
+
+.section-grid.two,
+.focus-stage,
+.coach-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.focus-stage,
+.coach-layout {
+  grid-template-columns: minmax(0, 1fr) 340px;
+}
+
+.calm-panel,
+.roadmap-card,
+.chat-panel {
+  padding: 22px;
+}
+
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.timeline-list,
+.focus-side,
+.coach-side,
+.suggestion-list {
+  display: grid;
+  gap: 12px;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--card-bg) 78%, var(--primary-glow));
+  border: 1px solid var(--card-border);
+}
+
+.timeline-item time {
+  color: var(--primary);
+  font-weight: 850;
+}
+
+.timeline-item span,
+.metric-ring span,
+.roadmap-card > span,
+.rule-grid span,
+.preview-stats span {
+  color: var(--muted);
+}
+
+.ring-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.metric-ring {
+  position: relative;
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.metric-ring svg {
+  position: absolute;
+  top: 6px;
+  width: 112px;
+  height: 112px;
+  transform: rotate(-90deg);
+}
+
+.metric-ring circle,
+.timer-orbit circle {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.metric-ring circle:first-child,
+.timer-orbit circle:first-child {
+  stroke: color-mix(in srgb, var(--muted) 18%, transparent);
+}
+
+.metric-ring strong {
+  position: absolute;
+  top: 62px;
+  font-size: 1.2rem;
+}
+
+.metric-ring span {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.screen-heading {
+  max-width: 760px;
+}
+
+.roadmap-path {
+  display: grid;
+  gap: 18px;
+  max-width: 780px;
+}
+
+.roadmap-node {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 14px;
+  position: relative;
+}
+
+.roadmap-node:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 26px;
+  top: 54px;
+  bottom: -18px;
+  width: 2px;
+  background: var(--card-border);
+}
+
+.checkpoint {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--primary);
+  box-shadow: 0 12px 28px var(--primary-glow);
+  z-index: 1;
+}
+
+.roadmap-node.locked .checkpoint {
+  background: color-mix(in srgb, var(--muted) 45%, transparent);
+  box-shadow: none;
+}
+
+.roadmap-progress {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--muted) 14%, transparent);
+  margin: 16px 0;
+}
+
+.roadmap-progress div {
+  height: 100%;
+  background: var(--primary);
+}
+
+.checkpoint-list,
+.rule-grid,
+.duration-row,
+.focus-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.rule-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.focus-card {
+  min-height: 680px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(24px, 5vw, 48px);
+}
+
+.duration-row button {
+  min-width: 76px;
+  height: 40px;
+  border-radius: 999px;
+  color: var(--muted);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  font-weight: 800;
+}
+
+.duration-row button.active {
+  color: #fff;
+  background: var(--primary);
+}
+
+.timer-orbit {
+  position: relative;
+  width: min(360px, 80vw);
+  aspect-ratio: 1;
+  margin: 26px auto;
+  display: grid;
+  place-items: center;
+}
+
+.timer-orbit svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.timer-orbit circle:last-child {
+  stroke: var(--primary);
+}
+
+.timer-orbit strong {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 900;
+}
+
+.timer-orbit span {
+  display: block;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.icon-action {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: var(--foreground);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border) !important;
+}
+
+.icon-action.warning {
+  color: #ef4444;
+}
+
+.chat-panel {
+  min-height: 680px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-stream {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px 0 18px;
+}
+
+.chat-bubble {
+  max-width: 78%;
+  padding: 14px 16px;
+  border-radius: 8px;
+  line-height: 1.6;
+  border: 1px solid var(--card-border);
+}
+
+.chat-bubble.coach {
+  align-self: flex-start;
+  background: color-mix(in srgb, var(--card-bg) 72%, var(--primary-glow));
+}
+
+.chat-bubble.user {
+  align-self: flex-end;
+  color: #fff;
+  background: var(--primary);
+}
+
+.coach-input {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+}
+
+.coach-input input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--foreground);
+}
+
+.coach-input button {
+  border-radius: 8px;
+  color: #fff;
+  background: var(--primary);
+}
+
+.onboarding-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: clamp(18px, 4vw, 46px) !important;
+  background: linear-gradient(135deg, var(--background) 0%, var(--background-end) 100%);
+}
+
+.onboarding-panel {
+  width: min(1120px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 390px;
+  gap: 24px;
+}
+
+.onboarding-copy,
+.onboarding-preview {
+  padding: clamp(20px, 4vw, 44px);
+}
+
+.onboarding-steps,
+.onboarding-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 18px;
+}
+
+.onboarding-steps button {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--muted);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  font-weight: 850;
+}
+
+.onboarding-steps button.active,
+.onboarding-steps button.done,
+.choice-grid button.active {
+  color: #fff;
+  background: var(--primary);
+}
+
+.onboarding-card {
+  min-height: 270px;
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--card-bg) 70%, var(--primary-glow));
+  border: 1px solid var(--card-border);
+}
+
+.onboarding-card input,
+.onboarding-card textarea {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--foreground);
+  padding: 14px 16px;
+  font: inherit;
+}
+
+.onboarding-card textarea {
+  min-height: 130px;
+}
+
+.choice-grid,
+.availability-grid,
+.preview-stats {
+  display: grid;
+  gap: 10px;
+}
+
+.choice-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.availability-grid,
+.preview-stats {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.choice-grid button,
+.availability-grid button,
+.quiet-action {
+  min-height: 52px;
+  border-radius: 8px;
+  color: var(--foreground);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  font-weight: 800;
+}
+
+.availability-grid button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px;
+}
+
+.generate-state,
+.preview-mission {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.auth-note a {
+  color: var(--primary);
+  font-weight: 850;
+}
+
+.preview-phone {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 460px;
+  padding: 22px;
+  border-radius: 28px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--primary-glow) 55%, var(--card-bg)), var(--card-bg));
+  border: 1px solid var(--card-border);
+}
+
+.preview-header,
+.preview-list div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.preview-phone h2 {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.preview-mission {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  width: min(220px, 75%);
+  margin: 0 auto;
+  color: #fff;
+  background: var(--primary);
+  box-shadow: 0 18px 48px var(--primary-glow);
+}
+
+.preview-mission strong {
+  font-size: 3rem;
+}
+
+.preview-list,
+.preview-stats {
+  display: grid;
+  gap: 10px;
+}
+
+.preview-list {
+  margin-top: auto;
+}
+
+.preview-list div,
+.preview-stats div {
+  padding: 13px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--card-bg) 70%, var(--primary-glow));
+  border: 1px solid var(--card-border);
+}
+
+@media (max-width: 900px) {
+  .theme-dots {
+    display: none;
+  }
+
+  .hero-mission,
+  .section-grid.two,
+  .focus-stage,
+  .coach-layout,
+  .rule-grid,
+  .onboarding-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .timbo-brand strong {
+    display: none;
+  }
+
+  .timbo-bottom-nav a {
+    flex-direction: column;
+    gap: 3px;
+    font-size: 0.72rem;
+  }
+
+  .ring-grid,
+  .choice-grid,
+  .availability-grid,
+  .preview-stats {
+    grid-template-columns: 1fr;
+  }
+}

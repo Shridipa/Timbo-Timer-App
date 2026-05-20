@@ -17,8 +17,8 @@ const parseTimeWindow = (timeStr) => {
 };
 
 /**
- * Main AI Auto-Scheduler
- * Automatically populates user calendar with customized deep work, revision, breaks, and daily reflections
+ * Rule-based adaptive scheduler.
+ * Automatically populates the calendar with deep work, revision, breaks, and reflection without requiring LLM calls.
  */
 export const autoScheduleDailyMissions = async (userId, targetDate = new Date()) => {
   try {
@@ -95,7 +95,7 @@ export const autoScheduleDailyMissions = async (userId, targetDate = new Date())
         userId,
         missionId: mission._id,
         title: mission.title,
-        description: mission.description || `AI Scheduled Objective for ${goal.title}`,
+        description: mission.description || `Timbo scheduled objective for ${goal.title}`,
         start,
         end,
         type,

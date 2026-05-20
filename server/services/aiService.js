@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const ai = process.env.GEMINI_API_KEY ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY }) : null;
 
 const SYSTEM_PROMPTS = {
   strategist: `You are an elite AI Strategic Goal Planner and Productivity Architect. You help users break down major life goals into tactical, realistic, and highly structured execution roadmaps. You always respond with clean, valid JSON matching the exact schema requested.`,
@@ -11,6 +11,10 @@ const SYSTEM_PROMPTS = {
 // Helper for calling Gemini
 const callGemini = async (prompt, persona, jsonMode = false) => {
   try {
+    if (!ai) {
+      throw new Error('Optional AI key not configured');
+    }
+
     const config = {
       systemInstruction: SYSTEM_PROMPTS[persona] || SYSTEM_PROMPTS.strategist,
       temperature: 0.7,
@@ -33,10 +37,86 @@ const callGemini = async (prompt, persona, jsonMode = false) => {
   }
 };
 
+const inferBurnoutRisk = (goalData) => {
+  const hours = Number(goalData.targetHours || 1);
+  if (goalData.stressLevel === 'High' || hours > 5) return 'High';
+  if (goalData.stressLevel === 'Medium' || hours < 2) return 'Medium';
+  return 'Low';
+};
+
+const ruleBasedGoalAnalysis = (goalData) => {
+  const isCareer = /faang|job|interview|coding|career/i.test(goalData.title || '');
+  const isStudy = /exam|study|learn|course|crack/i.test(goalData.title || '');
+  const burnoutRisk = inferBurnoutRisk(goalData);
+  const hours = Number(goalData.targetHours || 1);
+
+  return {
+    skillGaps: isCareer
+      ? ['Problem pattern fluency', 'Timed execution', 'Interview confidence']
+      : isStudy
+        ? ['Concept retention', 'Practice consistency', 'Revision rhythm']
+        : ['Clear next actions', 'Consistent execution', 'Feedback loops'],
+    effortEstimate: 'Step 1: Build the foundation\nStep 2: Practice in focused blocks\nStep 3: Simulate real conditions\nStep 4: Review weak spots weekly',
+    dependencies: ['Stable weekly availability', 'One protected focus window', 'A simple review ritual'],
+    risks: burnoutRisk === 'High'
+      ? ['Overloaded calendar', 'Skipped recovery', 'Too many heavy sessions']
+      : ['Evening avoidance', 'Underestimated task size', 'Loss of momentum after missed days'],
+    executionProbability: Math.max(58, Math.min(92, 62 + hours * 7 - (burnoutRisk === 'High' ? 12 : 0))),
+    focusAllocation: burnoutRisk === 'High' ? '60% practice, 25% review, 15% recovery' : '70% practice, 20% review, 10% reflection',
+    burnoutRisk
+  };
+};
+
+const ruleBasedRoadmap = (goalData) => ({
+  phases: [
+    {
+      title: 'Phase 1: Foundation reset',
+      objective: `Make ${goalData.title} feel startable and concrete.`,
+      duration: '3 weeks',
+      practiceGoals: ['Complete 5 focused sessions per week', 'Log one tiny review after each session'],
+      expectedOutcomes: ['Clear baseline', 'Reduced starting friction'],
+      order: 1,
+      tasks: [
+        { title: 'Map the core skills', description: 'List the highest-leverage subskills and pick the first one.', duration: 35, priority: 'high', resources: 'Existing notes or syllabus', whyItMatters: 'Clarity reduces avoidance.' },
+        { title: 'Daily focus block', description: 'Complete one protected session on the main skill.', duration: 50, priority: 'high', resources: 'Timer and practice set', whyItMatters: 'Consistency compounds faster than intensity.' },
+        { title: 'Light review loop', description: 'Review mistakes and update the next mission.', duration: 20, priority: 'medium', resources: 'Journal or review sheet', whyItMatters: 'Review turns effort into learning.' }
+      ]
+    },
+    {
+      title: 'Phase 2: Pattern and speed',
+      objective: 'Increase difficulty while keeping recovery protected.',
+      duration: '6 weeks',
+      practiceGoals: ['Alternate deep work and review sessions', 'Complete one simulation weekly'],
+      expectedOutcomes: ['Better speed', 'More reliable confidence'],
+      order: 2,
+      tasks: [
+        { title: 'Timed practice sprint', description: 'Practice under a visible time box.', duration: 45, priority: 'high', resources: 'Timed task set', whyItMatters: 'Pressure becomes familiar.' },
+        { title: 'Weakness repair', description: 'Pick one repeated mistake and repair it deliberately.', duration: 35, priority: 'medium', resources: 'Mistake log', whyItMatters: 'Small repairs prevent repeated stalls.' },
+        { title: 'Recovery checkpoint', description: 'Run a lighter session after two heavy days.', duration: 25, priority: 'low', resources: 'Review notes', whyItMatters: 'Recovery preserves momentum.' }
+      ]
+    },
+    {
+      title: 'Phase 3: Simulation and polish',
+      objective: 'Practice the real performance environment and refine final gaps.',
+      duration: 'Final stretch',
+      practiceGoals: ['Run realistic simulations', 'Protect sleep and recovery'],
+      expectedOutcomes: ['Readiness', 'Stable execution under pressure'],
+      order: 3,
+      tasks: [
+        { title: 'Full simulation', description: 'Perform a realistic mock session.', duration: 90, priority: 'high', resources: 'Mock test or interview prompt', whyItMatters: 'Real conditions reveal the last blockers.' },
+        { title: 'Final gap review', description: 'Review the most expensive errors first.', duration: 40, priority: 'high', resources: 'Error log', whyItMatters: 'Priority repair beats broad panic.' },
+        { title: 'Confidence closeout', description: 'End with a short win log and next action.', duration: 15, priority: 'medium', resources: 'Journal', whyItMatters: 'The brain returns to what feels finishable.' }
+      ]
+    }
+  ]
+});
+
 /**
  * Step 2: Goal Analysis Engine
  */
 export const analyzeGoal = async (goalData) => {
+  if (!ai) return ruleBasedGoalAnalysis(goalData);
+
   const prompt = `
     Analyze the following user-defined goal and return a comprehensive analysis in JSON format.
     
@@ -61,14 +141,20 @@ export const analyzeGoal = async (goalData) => {
     }
   `;
 
-  const responseText = await callGemini(prompt, 'strategist', true);
-  return JSON.parse(responseText);
+  try {
+    const responseText = await callGemini(prompt, 'strategist', true);
+    return JSON.parse(responseText);
+  } catch {
+    return ruleBasedGoalAnalysis(goalData);
+  }
 };
 
 /**
  * Step 3: Roadmap Generator
  */
 export const generateRoadmap = async (goalData, analysis) => {
+  if (!ai) return ruleBasedRoadmap(goalData, analysis);
+
   const prompt = `
     Generate a complete, sequential strategic execution roadmap for the following goal:
     
@@ -106,8 +192,12 @@ export const generateRoadmap = async (goalData, analysis) => {
     }
   `;
 
-  const responseText = await callGemini(prompt, 'strategist', true);
-  return JSON.parse(responseText);
+  try {
+    const responseText = await callGemini(prompt, 'strategist', true);
+    return JSON.parse(responseText);
+  } catch {
+    return ruleBasedRoadmap(goalData, analysis);
+  }
 };
 
 /**
@@ -215,6 +305,20 @@ export const analyzeTaskScheduling = async (taskData, userContext, existingEvent
  * Step 10: Excuse Validation Engine
  */
 export const validateExcuse = async (taskTitle, excuse, motivations) => {
+  if (!ai) {
+    const lower = (excuse || '').toLowerCase();
+    const burnout = /sick|exhausted|burnout|fever|emergency|no sleep|12 hours/.test(lower);
+    const confusion = /confused|don't know|dont know|unclear|overwhelmed/.test(lower);
+    const classification = burnout ? 'burnout' : confusion ? 'confusion' : 'avoidance';
+    return {
+      classification,
+      isValid: burnout,
+      feedback: burnout
+        ? `Rest is the mission today. Protect recovery so ${motivations || 'your bigger reason'} still has energy tomorrow.`
+        : `This looks like resistance, not failure. Shrink "${taskTitle}" to a 10-minute start and let momentum return gently.`
+    };
+  }
+
   const prompt = `
     The user skipped their task today.
     Task Title: "${taskTitle}"
@@ -245,14 +349,29 @@ export const validateExcuse = async (taskTitle, excuse, motivations) => {
     }
   `;
 
-  const responseText = await callGemini(prompt, 'psychologist', true);
-  return JSON.parse(responseText);
+  try {
+    const responseText = await callGemini(prompt, 'psychologist', true);
+    return JSON.parse(responseText);
+  } catch {
+    return {
+      classification: 'avoidance',
+      isValid: false,
+      feedback: `Start with the smallest visible part of "${taskTitle}". Five calm minutes keeps the promise alive.`
+    };
+  }
 };
 
 /**
  * Step 15: Morning Briefing
  */
 export const generateMorningBriefing = async (goalTitle, currentPhase, todayTasks, userMotivations) => {
+  if (!ai) {
+    return {
+      motivation: `One focused session today keeps ${goalTitle} alive.`,
+      brief: `Today's Core Mission: complete ${todayTasks?.[0] || 'one meaningful focus block'}.\n\nMental Focus Map: start before checking low-priority distractions, then stop while the next step is still clear.`
+    };
+  }
+
   const prompt = `
     Generate a high-performance Morning Briefing for the user.
     
@@ -273,14 +392,28 @@ export const generateMorningBriefing = async (goalTitle, currentPhase, todayTask
     }
   `;
 
-  const responseText = await callGemini(prompt, 'briefing', true);
-  return JSON.parse(responseText);
+  try {
+    const responseText = await callGemini(prompt, 'briefing', true);
+    return JSON.parse(responseText);
+  } catch {
+    return {
+      motivation: `One focused session today keeps ${goalTitle} alive.`,
+      brief: `Today's Core Mission: complete ${todayTasks?.[0] || 'one meaningful focus block'}.\n\nMental Focus Map: use a 25-minute sprint and close the loop with a short review.`
+    };
+  }
 };
 
 /**
  * Step 14: Daily Review
  */
 export const generateDailyReviewInsight = async (win, struggle, energyLevel, distractionLevel, completedMissions) => {
+  if (!ai) {
+    const adjustment = energyLevel <= 4 || distractionLevel >= 7
+      ? 'Tomorrow should start with a lighter 25-minute session before any heavy work.'
+      : 'Keep the same schedule shape tomorrow and protect your first focus window.';
+    return `Win noticed: ${win}.\n\nPattern: ${struggle} is useful data, not a verdict.\n\nAdjustment: ${adjustment}`;
+  }
+
   const prompt = `
     The user is wrapping up their day. Here is their performance log:
     Completed Tasks: ${JSON.stringify(completedMissions)}
@@ -298,13 +431,31 @@ export const generateDailyReviewInsight = async (win, struggle, energyLevel, dis
     Return a plain text string with rich, sleek formatting (use bullet points).
   `;
 
-  return await callGemini(prompt, 'psychologist', false);
+  try {
+    return await callGemini(prompt, 'psychologist', false);
+  } catch {
+    return `Win noticed: ${win}.\n\nAdjustment: reduce friction around ${struggle} and begin tomorrow with one short session.`;
+  }
 };
 
 /**
  * Step 16: Contextual Strategy Chat
  */
 export const chatWithCoach = async (chatHistory, message, userContext) => {
+  if (!ai) {
+    const lower = (message || '').toLowerCase();
+    if (lower.includes('tired') || lower.includes('burnout')) {
+      return 'Tired is data, not failure. Switch today to recovery mode: one 25-minute light session, then stop cleanly.';
+    }
+    if (lower.includes('behind')) {
+      return `Behind does not mean broken. For ${userContext.goalTitle}, protect the highest-leverage task and let Timbo move the rest forward.`;
+    }
+    if (lower.includes('stuck') || lower.includes('start')) {
+      return 'Lower the entry cost. Open the task, do the first visible action for 10 minutes, and count that as a real session.';
+    }
+    return `I would schedule your hardest task around ${userContext.peakProductivityHour || 'your strongest focus window'} and keep the evening for a lighter review.`;
+  }
+
   const prompt = `
     You are the user's elite AI Life Operating System Coach and Strategist.
     You have full access to the user's current productivity profiles and state.
@@ -326,5 +477,9 @@ export const chatWithCoach = async (chatHistory, message, userContext) => {
     Respond in a highly personalized, smart, structured way. Refer back to their psychological history, wins, or excuses when appropriate to show deep memory. Keep it supportive but challenging. Use simple markdown.
   `;
 
-  return await callGemini(prompt, 'psychologist', false);
+  try {
+    return await callGemini(prompt, 'psychologist', false);
+  } catch {
+    return `Start with one protected block for ${userContext.goalTitle}. Smaller is smarter when consistency is the goal.`;
+  }
 };

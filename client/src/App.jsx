@@ -7,11 +7,8 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardLayout from './layouts/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
 import RoadmapPage from './pages/RoadmapPage';
-import AnalyticsPage from './pages/AnalyticsPage';
 import FocusPage from './pages/FocusPage';
-import SettingsPage from './pages/SettingsPage';
 import CoachPage from './pages/CoachPage';
-import CalendarPage from './pages/CalendarPage';
 
 import LandingPage from './pages/LandingPage';
 
@@ -36,11 +33,9 @@ function App() {
         <Route path="/" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<DashboardPage />} />
           <Route path="roadmap" element={<RoadmapPage />} />
-          <Route path="analytics" element={<AnalyticsPage />} />
-          <Route path="calendar" element={<CalendarPage />} />
           <Route path="focus" element={<FocusPage />} />
           <Route path="coach" element={<CoachPage />} />
-          <Route path="settings" element={<SettingsPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
       <Toaster 

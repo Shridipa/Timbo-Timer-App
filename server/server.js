@@ -55,7 +55,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Basic Route
 app.get('/', (req, res) => {
-  res.send('AI Habit Tracker API is running...');
+  res.send('Timbo-Timer adaptive execution API is running...');
 });
 
 // Routes
